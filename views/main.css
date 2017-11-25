@@ -1,0 +1,48 @@
+body {
+    padding: 0 0 0 0;
+    background: #ffffff url(imagenes/background5.jpg) top left repeat;
+}
+
+div label, div input {
+    display: block;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input {
+    height: 20px;
+    width: 500px;
+    margin-bottom: 10px;
+}
+
+input[type=submit] {
+    width: 200px;
+    font-size: 30px;
+}
+
+input[type=text], input[type=email] {
+    border: 2px solid #7facaa;
+    font-size: 24px;
+    padding: 7px;
+}
+.usuario input {
+    height: 12px;
+    width: 400px;
+    margin-bottom: 5px;
+}
+.dias input[type=checkbox]{
+  display: inline;
+  width: 15px;
+  height: 15px;
+  margin-right: 15px;
+  margin-left: 5px;
+}
+.stars input[type=checkbox]{
+  display: inline;
+  width: 15px;
+  height: 15px;
+  margin-right: 15px;
+  margin-left: 5px;
+}
