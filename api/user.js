@@ -39,50 +39,100 @@ var addUser = function(req, res, conn) {
 
    var name = req.body.nombre;
    var pwd = req.body.password;
-   var edad = req.body.password;
+   var edad = req.body.edad;
    var correo = req.body.correo;
-   var result =
-      function(error, results, fields) {
-         if(error) throw error;
-         res.status(201).send();
-      };
-
+   var values = [name, correo, pwd];
+   var query = "insert into usuario(nombre, correo, password";
 
    if(exists(name) && exists(pwd) && exists(correo)) {
       if(exists(edad)) {
-         conn.query(
-            "insert into usuario(nombre, correo, password, edad) value(?, ?, ?, ?);",
-            [name, correo, pwd, edad],
-            result
-         );
+         values.push(edad);
+         query += ", edad) value(?, ?, ?, ?";
       } else {
-         conn.query(
-            "insert into usuario(nombre, correo, password) value(?, ?, ?);",
-            [name, correo, pwd],
-            result
-         );
+         query += ") values(?, ?, ?";
       }
+      query += ");";
+      conn.query(
+         query,
+         values,
+         function(error, results, fields) {
+            if(error) throw error;
+            res.status(201).send();
+         }
+      );
    } else {
       res.status(400).send("Invalid body content");
    }
 };
 
-// DELETE request for a user given its name and password.
+// PUT request for updating user data given its id and password.
+var updateUser = function(req, res, conn) {
+
+   var id = req.body.id;
+   var name = req.body.nombre;
+   var pwd = req.body.password;
+   var newPwd = req.body.newpassword;
+   var edad = req.body.edad;
+   var correo = req.body.correo;
+   var values = [];
+   var query = "update usuario set";
+   if( exists(newPwd) ) {
+      query += " password = ?,";
+      values.push(newPwd);
+   }
+   if( exists(name) ) {
+      query += " nombre = ?,";
+      values.push(name);
+   }
+   if( exists(edad) ) {
+      query += " edad = ?,";
+      values.push(edad);
+   }
+   if( exists(correo) ) {
+      query += " correo = ?,";
+      values.push(correo);
+   }
+   if(values.length > 0) {
+      query = query.slice(0, -1);
+      query += " where id = ? and password = ?;";
+      values.push(id);
+      values.push(pwd);
+      if(exists(pwd) && exists(id)) {
+
+         conn.query(
+            query,
+            values,
+            function(error, results, fields) {
+               if(error) throw error;
+               res.status(200).send();
+            }
+         );
+      } else {
+         res.status(400).send("Invalid query parameters. Must contain 'password' and 'id'");
+      }
+   } else {
+      res.status(400).send("No values to update");
+   }
+
+
+};
+
+// DELETE request for a user given its id and password.
 var deleteUser = function(req, res, conn) {
 
    var pwd = req.query.password;
-   var name = req.query.nombre;
-   if(exists(pwd) && exists(name)) {
+   var id = req.query.id;
+   if(exists(pwd) && exists(id)) {
       conn.query(
-         "delete from usuario where nombre = ? and password = ?;",
-         [name, pwd],
+         "delete from usuario where id = ? and password = ?;",
+         [id, pwd],
          function(error, results, fields) {
             if(error) throw error;
             res.status(204).send();
          }
       );
    } else {
-      res.status(400).send("Invalid query parameters. Must contain 'password' and 'nombre'");
+      res.status(400).send("Invalid query parameters. Must contain 'password' and 'id'");
    }
 };
 
@@ -92,5 +142,5 @@ module.exports = {
    getUser,
    addUser,
    deleteUser,
-   hello
+   updateUser
 };

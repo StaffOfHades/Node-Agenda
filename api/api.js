@@ -8,16 +8,26 @@ var addAPI = function(app) {
       user.getUserById(req, res, connection);
    });
 
-   app.get("/usuario", function (req, res) {
-      user.getUser(req, res, connection);
-   });
-
-   app.post("/usuario", function (req, res) {
-      user.addUser(req, res, connection);
-   });
-
-   app.delete("/usuario", function (req, res) {
-      user.deleteUser(req, res, connection);
+   app.all("/usuario", function (req, res) {
+      switch(req.method) {
+         case "GET":
+            user.getUser(req, res, connection);
+            break;
+         case "POST":
+            user.addUser(req, res, connection);
+            break;
+         case "PUT":
+            user.updateUser(req, res, connection);
+            break;
+         case "DELETE":
+            user.deleteUser(req, res, connection);
+            break;
+         case "HEAD":
+            res.send({"ALLOWED":["GET", "POST", "PUT", "DELETE", "HEAD"]});
+            break;
+         default:
+            res.status(405).send();
+      }
    });
 };
 
@@ -38,7 +48,6 @@ var start = function(app) {
       addAPI(app);
       console.log('connected as id ' + connection.threadId);
    });
-   return true;
 };
 
 module.exports = {
