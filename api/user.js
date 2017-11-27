@@ -57,7 +57,13 @@ var addUser = function(req, res, conn) {
          values,
          function(error, results, fields) {
             if(error) throw error;
-            res.status(201).send();
+            conn.query(
+               "insert into horario (idusuario) select max(id) from usuario;",
+               function(err2, res2, fields2) {
+                  if(error) throw error;
+                  res.status(201).send();
+               }
+            );
          }
       );
    } else {

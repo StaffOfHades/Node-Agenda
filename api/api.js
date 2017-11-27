@@ -1,4 +1,5 @@
 var user = require("./user.js");
+var horario = require("./horario.js");
 var mysql = require("mysql");
 var connection;
 
@@ -24,6 +25,19 @@ var addAPI = function(app) {
             break;
          case "HEAD":
             res.send({"ALLOWED":["GET", "POST", "PUT", "DELETE", "HEAD"]});
+            break;
+         default:
+            res.status(405).send();
+      }
+   });
+
+   app.all("/horario", function (req, res) {
+      switch(req.method) {
+         case "GET":
+            horario.getHorario(req, res, connection);
+            break;
+         case "HEAD":
+            res.send({"ALLOWED":["GET", "HEAD"]});
             break;
          default:
             res.status(405).send();
