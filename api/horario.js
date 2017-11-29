@@ -27,7 +27,7 @@ var getHorarioId = function(req, res, conn) {
 };
 
 // GET request for horario usign user password and username
-var getHorarioId = function(req, res, conn) {
+var getHorario = function(req, res, conn) {
 
    var pwd = req.query.password;
    var id = req.query.id;
@@ -53,5 +53,6 @@ var getHorarioId = function(req, res, conn) {
 };
 
 module.exports = {
-   getHorario
+   getHorario,
+   getHorarioId
 };

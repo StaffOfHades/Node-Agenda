@@ -1,5 +1,6 @@
 var user = require("./user.js");
 var horario = require("./horario.js");
+var actividad = require("./actividad.js");
 var mysql = require("mysql");
 var pool;
 
@@ -44,17 +45,20 @@ var addAPI = function(app) {
       }
    });
 
-   app.all("/horario", function (req, res) {
-      switch(req.method) {
-         case "GET":
-            horario.getHorarioId(req, res, pool);
-            break;
-         case "HEAD":
-            res.send(JSON.stringify(["GET", "HEAD"]));
-            break;
-         default:
-            res.status(405).send();
-      }
+   app.post("/usuario/horario/actividad", function (req, res) {
+      actividad.addActivity(req, res, pool);
+   });
+
+   app.get("/horario", function (req, res) {
+      horario.getHorarioId(req, res, pool);
+   });
+
+   app.get("/actividad/:id", function (req, res) {
+      actividad.getActivityById(req, res, pool);
+   });
+
+   app.get("/actividad", function (req, res) {
+      actividad.getActivity(req, res, pool);
    });
 };
 
