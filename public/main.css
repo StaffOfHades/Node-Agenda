@@ -24,7 +24,7 @@ input[type=submit] {
     text-align: auto
 }
 
-input[type=text], input[type=email] {
+input[type=text], input[type=email], input[type=password], #horario {
     border: 2px solid #7facaa;
     font-size: 24px;
     padding: 7px;
@@ -43,13 +43,13 @@ input[type=text], input[type=email] {
 }
 
 .tabla {
- 
+
   height: 500px;
   width: 500px;
 
 
   position: center;
-  
+
 
   margin: auto;
 }
@@ -57,26 +57,3 @@ input[type=text], input[type=email] {
 .tit_horario{
   text-align: center;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

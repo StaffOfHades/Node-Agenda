@@ -2,7 +2,7 @@
 <html>
     <head>
         <link type="text/css" rel="stylesheet" href="main.css">
-        </script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script>
             if(localStorage["usuario"] == "undefined" || !localStorage["usuario"]) {
@@ -29,7 +29,7 @@
 
         <h2>Introducir datos de la actividad que desea agregar</h2>
 
-        <form>
+        <form target="agregarActividad.html"id="activityForm">
             <div>
                 <h3>Actividad a agregar</h3>
 
@@ -39,8 +39,27 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="Horario">Horario</label>
-                  <input type="text" id="horario">
+                  <label for="Horario">Horario (Introducir una hora de 8 a 22)</label>
+                  <!-- <input type="text" id="horario"> -->
+
+                  <input list="horas" id="horario">
+                    <datalist id="horas">
+                      <option value="8:00">
+                      <option value="9:00">
+                      <option value="10:00">
+                      <option value="11:00">
+                      <option value="12:00">
+                      <option value="13:00">
+                      <option value="14:00">
+                      <option value="15:00">
+                      <option value="16:00">
+                      <option value="17:00">
+                      <option value="18:00">
+                      <option value="19:00">
+                      <option value="20:00">
+                      <option value="21:00">
+                      <option value="22:00">
+                    </datalist>
                 </div>
 
                 <div class="form-group">
@@ -52,48 +71,52 @@
                   <div class="frecuencia">
                     <label for="Frecuencia">Frecuencia con la que realizas la actividad</label>
                     <div class="dias">
-                      <input type="checkbox" id="lunes">Lunes
+                      <input type="checkbox" id="lunes" value="1" >Lunes
                     </div>
 
                     <div class="dias">
-                      <input type="checkbox" id="lunes">Martes
+                      <input type="checkbox" id="martes" value="2">Martes
 
                     </div>
 
                     <div class="dias">
-                      <input type="checkbox" id="lunes">Miercoles
+                      <input type="checkbox" id="miercoles" value="3">Miercoles
                     </div>
 
                     <div class="dias">
-                      <input type="checkbox" id="lunes">Jueves
+                      <input type="checkbox" id="jueves" value="4">Jueves
                     </div>
 
                     <div class="dias">
-                      <input type="checkbox" id="lunes">Viernes
+                      <input type="checkbox" id="viernes" value="5">Viernes
                     </div>
                   </div>
                 </div>
 
               <div class="form-group">
-                <div class="radio">
-                  <label><input type="radio" name="star" value"1">1</label>
+                <div class="Stars">
+                  <label for="Stars">Calificacion de actividad</label>
+                  <div class="radio">
+                    <label><input type="radio" name="star" id= "star1" value"1">1</label>
+                  </div>
+
+                  <div class="radio">
+                    <label><input type="radio" name="star" id= "star2" value"2">2</label>
+                  </div>
+
+                  <div class="radio">
+                    <label><input type="radio" name="star" id= "star3" value"3">3</label>
+                  </div>
+
+                  <div class="radio">
+                    <label><input type="radio" name="star" id= "star4" value"4">4</label>
+                  </div>
+
+                  <div class="radio">
+                    <label><input type="radio" name="star" id= "star5" value"5">5</label>
+                  </div>
                 </div>
 
-                <div class="radio">
-                  <label><input type="radio" name="star" value"2">2</label>
-                </div>
-
-                <div class="radio">
-                  <label><input type="radio" name="star" value"3">3</label>
-                </div>
-
-                <div class="radio">
-                  <label><input type="radio" name="star" value"4">4</label>
-                </div>
-
-                <div class="radio">
-                  <label><input type="radio" name="star" value"5">5</label>
-                </div>
               </div>
 
 
@@ -102,6 +125,78 @@
             <!-- <input type="submit" class="btn btn-success" value="Agregar actividad" > -->
         </form>
 
+        <script>
+
+        $("#activityForm").submit(function () {
+          var frecuencia = [];
+          var calificacion;
+
+          if (document.getElementById('lunes').checked) {
+            frecuencia.push(1);
+          }
+          if (document.getElementById('martes').checked) {
+            frecuencia.push(2);
+          }
+          if (document.getElementById('miercoles').checked) {
+            frecuencia.push(3);
+          }
+          if (document.getElementById('jueves').checked) {
+            frecuencia.push(4);
+          }
+          if (document.getElementById('viernes').checked) {
+            frecuencia.push(5);
+          }
+
+          if (document.getElementById('star1').checked) {
+            calificacion = 1;
+          }
+          if (document.getElementById('star2').checked) {
+            calificacion = 2
+          }
+          if (document.getElementById('star3').checked) {
+            calificacion = 3;
+          }
+          if (document.getElementById('star4').checked) {
+            calificacion = 4;
+          }
+          if (document.getElementById('star5').checked) {
+            calificacion = 5;
+          }
+
+          // console.log("valor de frecuecia: " + frecuencia);
+          var actividad = document.getElementById('actividad').value;
+          var horario = document.getElementById('horario').value;
+          var lugar = document.getElementById('lugar').value;
+          // var frecuencia = document.getElementById('martes').value;
+          console.log("frecuencia" + frecuencia);
+          console.log(horario);
+          // var calificacion = document.getElementById('star1').value;
+
+
+             $.ajax(
+                {
+                   url: "http://localhost:3000/actividad",
+                   type: "POST",
+                   contentType: "application/json; charset=utf-8",
+                   dataType: "json",
+                   data: JSON.stringify({
+                      "actividad": actividad,
+                      "horario": horario,
+                      "lugar": lugar,
+                      "frecuencia": frecuencia,
+                      "calificacion" : calificacion
+                   })
+                }
+             ).done( function(data, status) {
+                console.log(data);
+                localStorage["actividad"] = JSON.stringify(data);
+             }).fail( function(data, status) {
+                console.log("Error ocurred: " + JSON.stringify(data) + "\n" + status);
+             });
+             // console.log("nombre: " + nombre);
+        });
+
+        </script>
 
     </body>
 </html>
