@@ -31,7 +31,7 @@
 
         <h2>Introducir datos para crear agenda con activiades</h2>
 
-        <form target="horario.html" id="userForm">
+        <form id="userForm">
             <div class="usuario">
                 <h3>Datos personales</h3>
                 <label for="Nombre">Introducir nombre</label>
@@ -68,7 +68,7 @@
                    data: JSON.stringify({
                       "nombre": nombre,
                       "password": password,
-                      "id" : matricula,
+                      "matricula" : matricula,
                       "edad": edad,
                       "correo": correo
                    })
