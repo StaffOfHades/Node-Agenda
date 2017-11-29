@@ -36,6 +36,8 @@
                 <h3>Datos personales</h3>
                 <label for="Nombre">Introducir nombre</label>
                 <input type="text" id="nombre">
+                <label for="Contraseña">Introducir contraseña</label>
+                <input type="password" id="password">
                 <label for="Matricula">Introducir numero de estudiante</label>
                 <input type="text" id="matricula">
                 <label for="Edad">Introducir edad</label>
@@ -52,6 +54,7 @@
 
         $("#userForm").submit(function () {
           var nombre = document.getElementById('nombre').value;
+          var password = document.getElementById('password').value;
           var matricula = document.getElementById('matricula').value;
           var edad = document.getElementById('edad').value;
           var correo = document.getElementById('correo').value;
@@ -64,9 +67,10 @@
                    dataType: "json",
                    data: JSON.stringify({
                       "nombre": nombre,
-                      "correo": correo,
-                      "password": "pass",
-                      "edad": edad
+                      "password": password,
+                      "matricula" : matricula,
+                      "edad": edad,
+                      "correo": correo
                    })
                 }
              ).done( function(data, status) {
