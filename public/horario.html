@@ -177,7 +177,29 @@
 
       </div>
 
+   <script>
+         var data = JSON.stringify({
+                      "id": JSON.parse(localStorage["usuario"])[0].id,
+                      "password": JSON.parse(localStorage["usuario"])[0].password,
+         });
+             $.ajax(
+                {
+                   url: "http://localhost:3000/usuario/horario/",
+                   type: "GET",
+                   contentType: "application/json; charset=utf-8",
+                   dataType: "json",
+                   data: data
+                }
+             ).done( function(data, status) {
+                console.log(data);
+                localStorage["horario"] = JSON.stringify(data);
+             }).fail( function(data, status) {
+                console.log("Error ocurred: " + JSON.stringify(data) + "\n" + status);
+             });
+             // console.log("nombre: " + nombre);
+        });
 
+   </script>
 
     </body>
 </html>

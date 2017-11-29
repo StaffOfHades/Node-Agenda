@@ -22,7 +22,7 @@ var getUser = function(req, res, pool) {
    var name = req.query.nombre;
    if(exists(pwd) && exists(name)) {
       pool.query(
-         "select id, edad, correo from usuario where nombre = ? and password = ?;",
+         "select id, edad, correo, matricula from usuario where nombre = ? and password = ?;",
          [name, pwd],
          function(error, results, fields) {
             if(error) throw error;
@@ -49,7 +49,7 @@ var addUser = function(req, res, pool) {
 
    if(exists(name) && exists(pwd) && exists(correo) && exists(id)) {
 
-      var query = "insert into usuario(nombre, correo, password, id";
+      var query = "insert into usuario(nombre, correo, password, matricula";
       if(exists(edad)) {
          values.push(edad);
          query += ", edad) value(?, ?, ?, ?, ?";
