@@ -4,7 +4,11 @@
         <link type="text/css" rel="stylesheet" href="main.css">
         </script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
+        <script>
+            if(localStorage["usuario"] == "undefined" || !localStorage["usuario"]) {
+              window.location.replace("http://localhost:3000/registrarUsuario.html");
+            }
+        </script>
     </head>
     <body>
 
@@ -14,11 +18,10 @@
               <div class="navbar-header">
                 <a class="navbar-brand" href="horario.html">Agenda de Actividades</a>
               </div>
-              
+
               <ul class="nav navbar-nav">
                 <li><a href="horario.html">Visualizar horario</a></li>
                 <li><a href="agregarActividad.html">Agregar actividades</a></li>
-                <li><a href="registrarUsuario.html">Registrar usuario (Temporal)</a></li>
               </ul>
             </div>
         </nav>
@@ -174,7 +177,7 @@
 
       </div>
 
-        
+
 
     </body>
 </html>

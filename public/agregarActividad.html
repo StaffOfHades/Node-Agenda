@@ -4,7 +4,11 @@
         <link type="text/css" rel="stylesheet" href="main.css">
         </script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
+        <script>
+            if(localStorage["usuario"] == "undefined" || !localStorage["usuario"]) {
+              window.location.replace("http://localhost:3000/registrarUsuario.html");
+            }
+        </script>
     </head>
     <body>
 
@@ -14,11 +18,10 @@
               <div class="navbar-header">
                 <a class="navbar-brand" href="horario.html">Agenda de Actividades</a>
               </div>
-              
+
               <ul class="nav navbar-nav">
                 <li><a href="horario.html">Visualizar horario</a></li>
                 <li><a href="agregarActividad.html">Agregar actividades</a></li>
-                <li><a href="registrarUsuario.html">Registrar usuario (Temporal)</a></li>
               </ul>
             </div>
         </nav>
@@ -29,7 +32,7 @@
         <form>
             <div>
                 <h3>Actividad a agregar</h3>
-                
+
                 <div class="form-group">
                   <label for="Actividad">Nombre de la actividad</label>
                   <input type="text" id="actividad">
@@ -51,20 +54,20 @@
                     <div class="dias">
                       <input type="checkbox" id="lunes">Lunes
                     </div>
-                    
+
                     <div class="dias">
                       <input type="checkbox" id="lunes">Martes
-                    
+
                     </div>
-                    
+
                     <div class="dias">
                       <input type="checkbox" id="lunes">Miercoles
                     </div>
-                    
+
                     <div class="dias">
                       <input type="checkbox" id="lunes">Jueves
                     </div>
-                    
+
                     <div class="dias">
                       <input type="checkbox" id="lunes">Viernes
                     </div>
@@ -90,9 +93,9 @@
 
                 <div class="radio">
                   <label><input type="radio" name="star" value"5">5</label>
-                </div>      
-              </div> 
-            
+                </div>
+              </div>
+
 
             </div>
              <button type="submit" class="btn btn-success">Agregar Actividad</button>
