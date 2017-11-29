@@ -3,7 +3,7 @@ function exists(variable) {
    return typeof variable != "undefined" && variable;
 }
 
-// GET request for user with a given, returning data from server
+// GET request for user with a given id, returning data from server
 var getUserById = function(req, res, pool) {
    pool.query(
       "select nombre, edad, correo from usuario where id = ?;",
@@ -30,7 +30,10 @@ var getUser = function(req, res, pool) {
          }
       );
    } else {
-      res.status(400).send("Invalid query parameters. Must contain 'password' and 'nombre'");
+      res.status(400).send(
+         "Invalid query parameters.</br>\nRequired query parameters: " +
+         JSON.stringify(['password','nombre'])
+      );
    }
 };
 
@@ -41,23 +44,24 @@ var addUser = function(req, res, pool) {
    var pwd = req.body.password;
    var edad = req.body.edad;
    var correo = req.body.correo;
-   var values = [name, correo, pwd];
+   var id = req.body.id;
+   var values = [name, correo, pwd, id];
 
-   if(exists(name) && exists(pwd) && exists(correo)) {
+   if(exists(name) && exists(pwd) && exists(correo) && exists(id)) {
 
-      var query = "insert into usuario(nombre, correo, password";
+      var query = "insert into usuario(nombre, correo, password, id";
       if(exists(edad)) {
          values.push(edad);
-         query += ", edad) value(?, ?, ?, ?";
+         query += ", edad) value(?, ?, ?, ?, ?";
       } else {
-         query += ") values(?, ?, ?";
+         query += ") values(?, ?, ?, ?";
       }
       query += ");";
       var queries =
          [
             query,
-            "insert into horario (idusuario) select max(id) from usuario;",
-            "select id, password from usuario where id = (select max(id) from usuario);"
+            "insert into horario (idusuario) value(?);",
+            "select id, password from usuario where id = ?;"
          ];
       var count = 0;
 
@@ -66,12 +70,17 @@ var addUser = function(req, res, pool) {
          if(count == 2) {
             res.status(201).send(results);
          } else {
-            pool.query( queries[++count], callback );
+            pool.query( queries[++count], [id], callback );
          }
       };
       pool.query( query, values, callback );
    } else {
-      res.status(400).send("Invalid body content");
+      res.status(400).send(
+         "Invalid body contents.</br>\nRequiered body contents: " +
+         JSON.stringify(['password','nombre','correo', 'id']) +
+         "</br>\nOptional body contents: " +
+         JSON.stringify(['edad'])
+      );
    }
 };
 
@@ -118,10 +127,16 @@ var updateUser = function(req, res, pool) {
             }
          );
       } else {
-         res.status(400).send("Invalid query parameters. Must contain 'password' and 'id'");
+         res.status(400).send(
+            "Invalid body contents.</br>\nRequiered body contents: " +
+            JSON.stringify(['password','id'])
+         );
       }
    } else {
-      res.status(400).send("No values to update");
+      res.status(400).send(
+         "Not enough body contents to modify user.</br>\nPossible body contents: " +
+         JSON.stringify(['newpassword','nombre','correo', 'edad'])
+      );
    }
 
 
@@ -142,7 +157,10 @@ var deleteUser = function(req, res, pool) {
          }
       );
    } else {
-      res.status(400).send("Invalid query parameters. Must contain 'password' and 'id'");
+      res.status(400).send(
+         "Invalid query parameters.</br>\nRequired query parameters: " +
+         JSON.stringify(['password','id'])
+      );
    }
 };
 

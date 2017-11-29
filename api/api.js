@@ -24,7 +24,20 @@ var addAPI = function(app) {
             user.deleteUser(req, res, pool);
             break;
          case "HEAD":
-            res.send({"ALLOWED":["GET", "POST", "PUT", "DELETE", "HEAD"]});
+            res.send(JSON.stringify(["GET", "POST", "PUT", "DELETE", "HEAD"]));
+            break;
+         default:
+            res.status(405).send();
+      }
+   });
+
+   app.all("/usuario/horario", function (req, res) {
+      switch(req.method) {
+         case "GET":
+            horario.getHorario(req, res, pool);
+            break;
+         case "HEAD":
+            res.send(JSON.stringify(["GET", "HEAD"]));
             break;
          default:
             res.status(405).send();
@@ -34,10 +47,10 @@ var addAPI = function(app) {
    app.all("/horario", function (req, res) {
       switch(req.method) {
          case "GET":
-            horario.getHorario(req, res, pool);
+            horario.getHorarioId(req, res, pool);
             break;
          case "HEAD":
-            res.send({"ALLOWED":["GET", "HEAD"]});
+            res.send(JSON.stringify(["GET", "HEAD"]));
             break;
          default:
             res.status(405).send();
@@ -52,7 +65,7 @@ var start = function(app) {
       connectionLimit: 10,
       database: "agenda",
       user: "root",
-      password: "root"
+      password: null
    });
 
    // Try to open pool

@@ -3,8 +3,8 @@ function exists(variable) {
    return typeof variable != "undefined" && variable;
 }
 
-// GET request for user usign their password and username
-var getHorario = function(req, res, conn) {
+// GET request for horario id usign user password and username
+var getHorarioId = function(req, res, conn) {
 
    var pwd = req.query.password;
    var id = req.query.id;
@@ -19,7 +19,36 @@ var getHorario = function(req, res, conn) {
          }
       );
    } else {
-      res.status(400).send("Invalid query parameters. Must contain 'password' and 'id'");
+      res.status(400).send(
+         "Invalid query parameters.</br>\nRequired query parameters: " +
+         JSON.stringify(['password','id'])
+      );
+   }
+};
+
+// GET request for horario usign user password and username
+var getHorarioId = function(req, res, conn) {
+
+   var pwd = req.query.password;
+   var id = req.query.id;
+   if(exists(pwd) && exists(id)) {
+      conn.query(
+         "select actividad.hora, actividad.lugar, actividad.nombre, agenda.dia, agenda.frecuencia " +
+         "from actividad, agenda, horario, usuario " +
+         "where actividad.id = agenda.idactividad and agenda.idhorario = horario.id " +
+            "and horario.idusuario = usuario.id and usuario.id = ? " +
+            "and password = ? order by agenda.dia, actividad.hora;",
+         [id, pwd],
+         function(error, results, fields) {
+            if(error) throw error;
+            res.send(results);
+         }
+      );
+   } else {
+      res.status(400).send(
+         "Invalid query parameters.</br>\nRequired query parameters: " +
+         JSON.stringify(['password','id'])
+      );
    }
 };
 
