@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link type="text/css" rel="stylesheet" href="main.css">
+         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    </head>
+    <body>
+
+      <div class="header">
+          <ul class="nav">
+              <li><a href="horario.html">Visualizar horario</a></li>
+              <li><a href="agregarActividad.html">Agregar actividades</a></li>
+              <li><a href="registrarUsuario.html">Registrar usuario (Temporal)</a></li>
+          </ul>
+      </div>
+
+      <script>
+
+         // GET with data
+         $.ajax(
+            {
+               url: "http://localhost:3000/usuario",
+               type: "GET",
+               contentType: "application/json; charset=utf-8",
+               dataType: "json",
+               data: {
+                  "nombre": "Mauricio",
+                  "password": "ab34"
+               }
+            }
+         ).done( function(data, status) {
+            console.log(data);
+         }).fail( function(data, status) {
+            console.log("Error ocurred: " + data);
+         });
+
+         // POST with data
+         $.ajax(
+            {
+               url: "http://localhost:3000/usuario",
+               type: "POST",
+               contentType: "application/json; charset=utf-8",
+               dataType: "json",
+               data: JSON.stringify({
+                  "nombre": "Mario",
+                  "correo": "mario@gmail.com",
+                  "password": "mr124"
+               })
+            }
+         ).done( function(data, status) {
+            console.log(data);
+         }).fail( function(data, status) {
+            console.log("Error ocurred: " + JSON.stringify(data) + "\n" + status);
+         });
+      </script>
+
+    </body>
+</html>

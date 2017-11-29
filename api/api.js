@@ -1,27 +1,27 @@
 var user = require("./user.js");
 var horario = require("./horario.js");
 var mysql = require("mysql");
-var connection;
+var pool;
 
 var addAPI = function(app) {
 
    app.get("/usuario/:id", function (req, res) {
-      user.getUserById(req, res, connection);
+      user.getUserById(req, res, pool);
    });
 
    app.all("/usuario", function (req, res) {
       switch(req.method) {
          case "GET":
-            user.getUser(req, res, connection);
+            user.getUser(req, res, pool);
             break;
          case "POST":
-            user.addUser(req, res, connection);
+            user.addUser(req, res, pool);
             break;
          case "PUT":
-            user.updateUser(req, res, connection);
+            user.updateUser(req, res, pool);
             break;
          case "DELETE":
-            user.deleteUser(req, res, connection);
+            user.deleteUser(req, res, pool);
             break;
          case "HEAD":
             res.send({"ALLOWED":["GET", "POST", "PUT", "DELETE", "HEAD"]});
@@ -34,7 +34,7 @@ var addAPI = function(app) {
    app.all("/horario", function (req, res) {
       switch(req.method) {
          case "GET":
-            horario.getHorario(req, res, connection);
+            horario.getHorario(req, res, pool);
             break;
          case "HEAD":
             res.send({"ALLOWED":["GET", "HEAD"]});
@@ -47,20 +47,22 @@ var addAPI = function(app) {
 
 var start = function(app) {
 
-   // Create connection to mysql server
-   connection = mysql.createConnection({
+   // Create pool to mysql server
+   pool = mysql.createPool({
+      connectionLimit: 10,
       database: "agenda",
       user: "root",
       password: null
    });
 
-   // Try to open connection
-   connection.connect(function(err) {
+   // Try to open pool
+   pool.getConnection(function(err, conn) {
       if (err) {
          console.error('error connecting: ' + err.stack);
       }
       addAPI(app);
-      console.log('connected as id ' + connection.threadId);
+      console.log('connected succesfully to db');
+      conn.release();
    });
 };
 
