@@ -38,7 +38,6 @@ var getActivity = function(req, res, pool) {
 
 // POST request for new activity, adding it to db
 var addActivity = function(req, res, pool) {
-   console.log(req.body);
 
    var id = req.body.id;
    var password = req.body.password;

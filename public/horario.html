@@ -2,7 +2,7 @@
 <html>
     <head>
         <link type="text/css" rel="stylesheet" href="main.css">
-        </script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script>
             if(localStorage["usuario"] == "undefined" || !localStorage["usuario"]) {
@@ -178,13 +178,13 @@
       </div>
 
    <script>
-         var data = JSON.stringify({
+         var data = {
                       "id": JSON.parse(localStorage["usuario"])[0].id,
                       "password": JSON.parse(localStorage["usuario"])[0].password,
-         });
+         };
              $.ajax(
                 {
-                   url: "http://localhost:3000/usuario/horario/",
+                   url: "http://localhost:3000/usuario/horario",
                    type: "GET",
                    contentType: "application/json; charset=utf-8",
                    dataType: "json",

@@ -60,8 +60,8 @@ var addUser = function(req, res, pool) {
       var queries =
          [
             query,
-            "insert into horario (idusuario) value(?);",
-            "select id, password from usuario where id = ?;"
+            "insert into horario (idusuario) select max(id) from usuario;",
+            "select id, password from usuario where id in (select max(id) from usuario);"
          ];
       var count = 0;
 

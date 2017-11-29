@@ -61,7 +61,7 @@ var start = function(app) {
       connectionLimit: 10,
       database: "agenda",
       user: "root",
-      password: "root"
+      password: null
    });
 
    // Try to open pool
