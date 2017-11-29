@@ -29,7 +29,7 @@
 
         <h2>Introducir datos de la actividad que desea agregar</h2>
 
-        <form target="agregarActividad.html"id="activityForm">
+        <form target="agregarActividad.html" id="activityForm">
             <div>
                 <h3>Actividad a agregar</h3>
 
@@ -172,20 +172,24 @@
           console.log(horario);
           // var calificacion = document.getElementById('star1').value;
 
+         var data = JSON.stringify({
+                      "id": JSON.parse(localStorage["usuario"])[0].id,
+                      "password": JSON.parse(localStorage["usuario"])[0].password,
+                      "nombre": actividad,
+                      "hora": horario,
+                      "lugar": lugar,
+                      "dias": frecuencia,
+                      "importancia" : calificacion
+         });
+         localStorage["data"] = data;
 
              $.ajax(
                 {
-                   url: "http://localhost:3000/actividad",
+                   url: "http://localhost:3000/usuario/horario/actividad",
                    type: "POST",
                    contentType: "application/json; charset=utf-8",
                    dataType: "json",
-                   data: JSON.stringify({
-                      "actividad": actividad,
-                      "horario": horario,
-                      "lugar": lugar,
-                      "frecuencia": frecuencia,
-                      "calificacion" : calificacion
-                   })
+                   data: data
                 }
              ).done( function(data, status) {
                 console.log(data);

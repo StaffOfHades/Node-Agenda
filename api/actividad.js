@@ -38,6 +38,7 @@ var getActivity = function(req, res, pool) {
 
 // POST request for new activity, adding it to db
 var addActivity = function(req, res, pool) {
+   console.log(req.body);
 
    var id = req.body.id;
    var password = req.body.password;
@@ -53,9 +54,9 @@ var addActivity = function(req, res, pool) {
 
       var queries =
          [
-            "insert into actividad(hora, lugar, nombre) value(?, ?, ?)",
+            "insert into actividad(hora, lugar, nombre) value(?, ?, ?);",
             "insert into evaluacion(idactividad, calificacion, importancia) " +
-            "select max(id), ?, ? from activdad"
+            "select max(id), ?, ? from actividad;"
          ];
       var values =
          [
@@ -65,31 +66,32 @@ var addActivity = function(req, res, pool) {
       for ( var pos in dias ) {
          queries.push(
             "insert into agenda(idhorario, dia, frecuencia, idactividad) " +
-            "select horario.id, ?, ?, (select max(actividad.id) from activdad) " +
+            "select horario.id, ?, ?, (select max(actividad.id) from actividad) " +
             "from horario, usuario " +
             "where usuario.id = ? and password = ? and horario.idusuario = usuario.id;"
          );
-         values.push( dias[pos], dias.length, id, password );
+         values.push( [dias[pos], dias.length, id, password] );
       }
       queries.push(
-         "select hora, lugar, nombre, importancia, dia " +
+         "select actividad.id, hora, lugar, nombre, importancia, dia " +
          "from actividad, evaluacion, agenda " +
          "where actividad.id = evaluacion.idactividad " +
             "and actividad.id = agenda.idactividad " +
-         "having actividad.id = max(actividad.id);"
+            "and actividad.id in (select max(a.id) from actividad a);"
       );
       values.push([]);
       var count = 0;
 
       var callback = function(error, results, fields) {
          if(error) throw error;
-         if(count == queries.length) {
+         if(count == queries.length - 1) {
             res.status(201).send(results);
          } else {
-            pool.query( queries[++count], values[++count], callback );
+            var query = pool.query( queries[++count], values[count], callback );
          }
       };
-      pool.query( queries[count], values[count], callback );
+      var query = pool.query( queries[count], values[count], callback );
+
    } else {
       res.status(400).send(
          "Invalid body contents.</br>\nRequiered body contents: " +

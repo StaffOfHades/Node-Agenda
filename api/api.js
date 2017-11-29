@@ -6,10 +6,6 @@ var pool;
 
 var addAPI = function(app) {
 
-   app.get("/usuario/:id", function (req, res) {
-      user.getUserById(req, res, pool);
-   });
-
    app.all("/usuario", function (req, res) {
       switch(req.method) {
          case "GET":
@@ -32,17 +28,12 @@ var addAPI = function(app) {
       }
    });
 
-   app.all("/usuario/horario", function (req, res) {
-      switch(req.method) {
-         case "GET":
-            horario.getHorario(req, res, pool);
-            break;
-         case "HEAD":
-            res.send(JSON.stringify(["GET", "HEAD"]));
-            break;
-         default:
-            res.status(405).send();
-      }
+   app.get("/actividad", function (req, res) {
+      actividad.getActivity(req, res, pool);
+   });
+
+   app.get("/usuario/horario", function (req, res) {
+      horario.getHorario(req, res, pool);
    });
 
    app.post("/usuario/horario/actividad", function (req, res) {
@@ -57,9 +48,10 @@ var addAPI = function(app) {
       actividad.getActivityById(req, res, pool);
    });
 
-   app.get("/actividad", function (req, res) {
-      actividad.getActivity(req, res, pool);
+   app.get("/usuario/:id", function (req, res) {
+      user.getUserById(req, res, pool);
    });
+
 };
 
 var start = function(app) {

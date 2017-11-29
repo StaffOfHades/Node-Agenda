@@ -4,12 +4,12 @@ function exists(variable) {
 }
 
 // GET request for horario id usign user password and username
-var getHorarioId = function(req, res, conn) {
+var getHorarioId = function(req, res, pool) {
 
    var pwd = req.query.password;
    var id = req.query.id;
    if(exists(pwd) && exists(id)) {
-      conn.query(
+      pool.query(
          "select horario.id from horario, usuario " +
          "where usuario.id = ? and password = ? and horario.idusuario = usuario.id;",
          [id, pwd],
@@ -27,12 +27,12 @@ var getHorarioId = function(req, res, conn) {
 };
 
 // GET request for horario usign user password and username
-var getHorario = function(req, res, conn) {
+var getHorario = function(req, res, pool) {
 
    var pwd = req.query.password;
    var id = req.query.id;
    if(exists(pwd) && exists(id)) {
-      conn.query(
+      var query = pool.query(
          "select actividad.hora, actividad.lugar, actividad.nombre, agenda.dia, agenda.frecuencia " +
          "from actividad, agenda, horario, usuario " +
          "where actividad.id = agenda.idactividad and agenda.idhorario = horario.id " +
@@ -44,6 +44,7 @@ var getHorario = function(req, res, conn) {
             res.send(results);
          }
       );
+
    } else {
       res.status(400).send(
          "Invalid query parameters.</br>\nRequired query parameters: " +
