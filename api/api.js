@@ -51,7 +51,7 @@ var start = function(app) {
    connection = mysql.createConnection({
       database: "agenda",
       user: "root",
-      password: null
+      password: "root"
    });
 
    // Try to open connection

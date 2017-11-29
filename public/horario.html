@@ -3,21 +3,30 @@
     <head>
         <link type="text/css" rel="stylesheet" href="main.css">
         </script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     </head>
     <body>
 
       <div class="header">
-          <ul class="nav">
-              <li><a href="horario.html">Visualizar horario</a></li>
-              <li><a href="agregarActividad.html">Agregar actividades</a></li>
-              <li><a href="registrarUsuario.html">Registrar usuario (Temporal)</a></li>
-          </ul>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+              <div class="navbar-header">
+                <a class="navbar-brand" href="horario.html">Agenda de Actividades</a>
+              </div>
+              
+              <ul class="nav navbar-nav">
+                <li><a href="horario.html">Visualizar horario</a></li>
+                <li><a href="agregarActividad.html">Agregar actividades</a></li>
+                <li><a href="registrarUsuario.html">Registrar usuario (Temporal)</a></li>
+              </ul>
+            </div>
+        </nav>
       </div>
 
-
-        <h1>Agenda de organización del tiempo</h1>
-        <table border = 2>
+      <div class="tabla">
+        <h1 class="jumbotron">Agenda de Actividades</h1>
+        <table class="table table-hover" border = 2>
         <tr>
           <td></td>
           <td>Lunes</td>
@@ -161,9 +170,11 @@
           <td>Actividad </td>
           <td>Actividad </td>
         </tr>
-
-
         </table>
+
+      </div>
+
+        
 
     </body>
 </html>
