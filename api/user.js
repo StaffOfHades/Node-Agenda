@@ -67,7 +67,7 @@ var addUser = function(req, res, pool) {
 
       var callback = function(error, results, fields) {
          if(error) throw error;
-         if(count == queries.length) {
+         if(count == queries.length - 1) {
             res.status(201).send(results);
          } else {
             pool.query( queries[++count], [id], callback );
