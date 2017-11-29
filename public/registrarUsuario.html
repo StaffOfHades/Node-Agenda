@@ -68,7 +68,7 @@
                    data: JSON.stringify({
                       "nombre": nombre,
                       "password": password,
-                      "matricula" : matricula,
+                      "id" : matricula,
                       "edad": edad,
                       "correo": correo
                    })
@@ -78,6 +78,7 @@
                 localStorage["usuario"] = JSON.stringify(data);
              }).fail( function(data, status) {
                 console.log("Error ocurred: " + JSON.stringify(data) + "\n" + status);
+                localStorage["error"] = JSON.stringify(data);
              });
              console.log("nombre: " + nombre);
         });
