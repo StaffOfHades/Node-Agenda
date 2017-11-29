@@ -18,8 +18,10 @@ input {
 }
 
 input[type=submit] {
-    width: 200px;
+    width: 250px;
+    height: 50px;
     font-size: 30px;
+    text-align: auto
 }
 
 input[type=text], input[type=email] {
@@ -39,10 +41,42 @@ input[type=text], input[type=email] {
   margin-right: 15px;
   margin-left: 5px;
 }
-.stars input[type=checkbox]{
-  display: inline;
-  width: 15px;
-  height: 15px;
-  margin-right: 15px;
-  margin-left: 5px;
+
+.tabla {
+ 
+  height: 500px;
+  width: 500px;
+
+
+  position: center;
+  
+
+  margin: auto;
 }
+
+.tit_horario{
+  text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

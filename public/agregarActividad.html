@@ -3,16 +3,25 @@
     <head>
         <link type="text/css" rel="stylesheet" href="main.css">
         </script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     </head>
     <body>
 
       <div class="header">
-          <ul class="nav">
-              <li><a href="horario.html">Visualizar horario</a></li>
-              <li><a href="agregarActividad.html">Agregar actividades</a></li>
-              <li><a href="registrarUsuario.html">Registrar usuario (Temporal)</a></li>
-          </ul>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+              <div class="navbar-header">
+                <a class="navbar-brand" href="horario.html">Agenda de Actividades</a>
+              </div>
+              
+              <ul class="nav navbar-nav">
+                <li><a href="horario.html">Visualizar horario</a></li>
+                <li><a href="agregarActividad.html">Agregar actividades</a></li>
+                <li><a href="registrarUsuario.html">Registrar usuario (Temporal)</a></li>
+              </ul>
+            </div>
+        </nav>
       </div>
 
         <h2>Introducir datos de la actividad que desea agregar</h2>
@@ -20,44 +29,74 @@
         <form>
             <div>
                 <h3>Actividad a agregar</h3>
-                <label for="Actividad">Nombre de la actividad</label>
-                <input type="text" id="actividad">
-                <label for="Horario">Horario</label>
-                <input type="text" id="horario">
-                <label for="Lugar">Lugar</label>
-                <input type="text" id="lugar">
+                
+                <div class="form-group">
+                  <label for="Actividad">Nombre de la actividad</label>
+                  <input type="text" id="actividad">
+                </div>
 
-                <div class="frecuencia">
-                  <label for="Frecuencia">Frecuencia con la que realizas la actividad</label>
-                  <div class="dias">
-                    <input type="checkbox" id="lunes">Lunes
-                  </div>
-                  <div class="dias">
-                    <input type="checkbox" id="lunes">Martes
-                  </div>
-                  <div class="dias">
-                    <input type="checkbox" id="lunes">Miercoles
-                  </div>
-                  <div class="dias">
-                    <input type="checkbox" id="lunes">Jueves
-                  </div>
-                  <div class="dias">
-                    <input type="checkbox" id="lunes">Viernes
+                <div class="form-group">
+                  <label for="Horario">Horario</label>
+                  <input type="text" id="horario">
+                </div>
+
+                <div class="form-group">
+                  <label for="Lugar">Lugar</label>
+                  <input type="text" id="lugar">
+                </div>
+
+                <div class="form-group">
+                  <div class="frecuencia">
+                    <label for="Frecuencia">Frecuencia con la que realizas la actividad</label>
+                    <div class="dias">
+                      <input type="checkbox" id="lunes">Lunes
+                    </div>
+                    
+                    <div class="dias">
+                      <input type="checkbox" id="lunes">Martes
+                    
+                    </div>
+                    
+                    <div class="dias">
+                      <input type="checkbox" id="lunes">Miercoles
+                    </div>
+                    
+                    <div class="dias">
+                      <input type="checkbox" id="lunes">Jueves
+                    </div>
+                    
+                    <div class="dias">
+                      <input type="checkbox" id="lunes">Viernes
+                    </div>
                   </div>
                 </div>
 
-                <div class="stars">
-                  <label for="Evaluacion">Evaluación de la actividad (Calificación del 1 al 5)</label>
-                  1<input type="checkbox" id="1">
-                  2<input type="checkbox" id="2">
-                  3<input type="checkbox" id="3">
-                  4<input type="checkbox" id="4">
-                  5<input type="checkbox" id="5">
+              <div class="form-group">
+                <div class="radio">
+                  <label><input type="radio" name="star" value"1">1</label>
                 </div>
 
+                <div class="radio">
+                  <label><input type="radio" name="star" value"2">2</label>
+                </div>
+
+                <div class="radio">
+                  <label><input type="radio" name="star" value"3">3</label>
+                </div>
+
+                <div class="radio">
+                  <label><input type="radio" name="star" value"4">4</label>
+                </div>
+
+                <div class="radio">
+                  <label><input type="radio" name="star" value"5">5</label>
+                </div>      
+              </div> 
+            
 
             </div>
-            <input type="submit" value="Agregar actividad" >
+             <button type="submit" class="btn btn-success">Agregar Actividad</button>
+            <!-- <input type="submit" class="btn btn-success" value="Agregar actividad" > -->
         </form>
 
 

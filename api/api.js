@@ -52,7 +52,7 @@ var start = function(app) {
       connectionLimit: 10,
       database: "agenda",
       user: "root",
-      password: null
+      password: "root"
    });
 
    // Try to open pool
