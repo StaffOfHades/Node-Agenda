@@ -4,8 +4,8 @@ function exists(variable) {
 }
 
 // GET request for user with a given, returning data from server
-var getUserById = function(req, res, conn) {
-   conn.query(
+var getUserById = function(req, res, pool) {
+   pool.query(
       "select nombre, edad, correo from usuario where id = ?;",
       [req.params.id],
       function(error, results, fields) {
@@ -16,12 +16,12 @@ var getUserById = function(req, res, conn) {
 };
 
 // GET request for user usign their password and username
-var getUser = function(req, res, conn) {
+var getUser = function(req, res, pool) {
 
    var pwd = req.query.password;
    var name = req.query.nombre;
    if(exists(pwd) && exists(name)) {
-      conn.query(
+      pool.query(
          "select id, edad, correo from usuario where nombre = ? and password = ?;",
          [name, pwd],
          function(error, results, fields) {
@@ -35,16 +35,17 @@ var getUser = function(req, res, conn) {
 };
 
 // POST request for new user, adding it to db
-var addUser = function(req, res, conn) {
+var addUser = function(req, res, pool) {
 
    var name = req.body.nombre;
    var pwd = req.body.password;
    var edad = req.body.edad;
    var correo = req.body.correo;
    var values = [name, correo, pwd];
-   var query = "insert into usuario(nombre, correo, password";
 
    if(exists(name) && exists(pwd) && exists(correo)) {
+
+      var query = "insert into usuario(nombre, correo, password";
       if(exists(edad)) {
          values.push(edad);
          query += ", edad) value(?, ?, ?, ?";
@@ -52,27 +53,30 @@ var addUser = function(req, res, conn) {
          query += ") values(?, ?, ?";
       }
       query += ");";
-      conn.query(
-         query,
-         values,
-         function(error, results, fields) {
-            if(error) throw error;
-            conn.query(
-               "insert into horario (idusuario) select max(id) from usuario;",
-               function(err2, res2, fields2) {
-                  if(error) throw error;
-                  res.status(201).send();
-               }
-            );
+      var queries =
+         [
+            query,
+            "insert into horario (idusuario) select max(id) from usuario;",
+            "select id, password from usuario where id = (select max(id) from usuario);"
+         ];
+      var count = 0;
+
+      var callback = function(error, results, fields) {
+         if(error) throw error;
+         if(count == 2) {
+            res.status(201).send(results);
+         } else {
+            pool.query( queries[++count], callback );
          }
-      );
+      };
+      pool.query( query, values, callback );
    } else {
       res.status(400).send("Invalid body content");
    }
 };
 
 // PUT request for updating user data given its id and password.
-var updateUser = function(req, res, conn) {
+var updateUser = function(req, res, pool) {
 
    var id = req.body.id;
    var name = req.body.nombre;
@@ -105,7 +109,7 @@ var updateUser = function(req, res, conn) {
       values.push(pwd);
       if(exists(pwd) && exists(id)) {
 
-         conn.query(
+         pool.query(
             query,
             values,
             function(error, results, fields) {
@@ -124,12 +128,12 @@ var updateUser = function(req, res, conn) {
 };
 
 // DELETE request for a user given its id and password.
-var deleteUser = function(req, res, conn) {
+var deleteUser = function(req, res, pool) {
 
    var pwd = req.query.password;
    var id = req.query.id;
    if(exists(pwd) && exists(id)) {
-      conn.query(
+      pool.query(
          "delete from usuario where id = ? and password = ?;",
          [id, pwd],
          function(error, results, fields) {
